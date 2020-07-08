@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -110,19 +111,19 @@ public class RecyclerViewActivity extends AppCompatActivity implements IRecycler
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this,""+dsCat.get(position).getTen(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,""+position,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemLongClick(int position) {
-        dsCat.remove(position);
-        catRecyclerViewAdapter.notifyItemRemoved(position);
+        //dsCat.remove(position);
+        //catRecyclerViewAdapter.notifyItemRemoved(position);
     }
 
 
-    String catRemoved=null;
+    Cat catRemoved=null;
 
-    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(30,ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -131,18 +132,19 @@ public class RecyclerViewActivity extends AppCompatActivity implements IRecycler
         // xử lý trượt trái- phải
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position=viewHolder.getAdapterPosition();
-
-            switch (direction){
-                case ItemTouchHelper.LEFT:
-                    dsCat.remove(position);
-                    catRecyclerViewAdapter.notifyItemRemoved(position);
-                    //catRemoved=dsCat.get(position).getTen();
-                    //Snackbar.make(recycler_cat,catRemoved, BaseTransientBottomBar.LENGTH_LONG).show();
-                    break;
-                case ItemTouchHelper.RIGHT:
-
-                    break;
+            final int position=viewHolder.getAdapterPosition();
+            if(direction==ItemTouchHelper.LEFT){
+                catRemoved=dsCat.get(position);
+                dsCat.remove(catRemoved);
+                catRecyclerViewAdapter.notifyItemRemoved(position);
+                Snackbar.make(recycler_cat,catRemoved.getTen(),BaseTransientBottomBar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dsCat.add(position,catRemoved);
+                                catRecyclerViewAdapter.notifyItemInserted(position);
+                            }
+                        }).show();
             }
         }
 
@@ -155,7 +157,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements IRecycler
 
                     .addSwipeRightBackgroundColor(ContextCompat.getColor(RecyclerViewActivity.this, R.color.swipeRight))
                     .addSwipeRightActionIcon(R.drawable.ic_baseline_archive_24)
-                    .addSwipeRightLabel("Archive")
+                    .addSwipeRightLabel("Archive").setSwipeRightLabelColor(R.color.white)
                     .create()
                     .decorate();
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
