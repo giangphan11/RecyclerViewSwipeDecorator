@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="phanbagiang.com.RelativeLayoutActivity">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:textSize="30dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ten"
+        android:text="User:"
+        android:textSize="18dp"
+        android:textColor="@android:color/holo_purple"
+        android:layout_alignBaseline="@id/edtTen"
+        android:layout_below="@id/title"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtTen"
+        android:layout_below="@id/title"
+        android:layout_toRightOf="@id/ten"/>
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mk"
+        android:text="Pw:"
+        android:textSize="18dp"
+        android:textColor="@android:color/holo_purple"
+        android:layout_alignBaseline="@id/edtpw"
+        android:layout_below="@id/ten"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtpw"
+        android:layout_below="@id/edtTen"
+        android:layout_toRightOf="@id/mk"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtpw"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnDangNhap"
+        android:text="Đăng nhập"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:text="Đăng ký"
+        android:id="@+id/btnDangKy"
+        android:layout_below="@id/edtpw"
+        android:layout_alignBaseline="@id/btnDangNhap"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
